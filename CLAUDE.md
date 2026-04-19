@@ -14,12 +14,13 @@ npm run preview  # Preview production build
 
 ## Architecture
 
-This is a React 19 + Vite app. The entire application lives in a single component: `src/App.jsx`.
+This is a React 19 + Vite app with no routing, no backend, and no external state management — all data is ephemeral in-memory React state.
 
-**State**: All state is managed with `useState` in `App` — transactions list, form fields (description, amount, type, category), and filter state (filterType, filterCategory).
+**Component tree:**
+- `App` — holds the `transactions` array in state and passes it down; the only component that can add transactions
+  - `Summary` — receives `transactions`, computes totalIncome/totalExpenses/balance internally
+  - `TransactionForm` — owns its own form field state; calls `onAdd(transaction)` prop when submitted
+  - `TransactionList` — receives `transactions`, owns filter state (filterType, filterCategory) internally
 
-**Known intentional issues** (part of a course exercise):
+**Known intentional issue** (part of a course exercise):
 - Transaction #4 ("Freelance Work") is typed as `"expense"` but categorized as `"salary"` — intentional data inconsistency.
-- UI and code organization are intentionally messy for refactoring exercises.
-
-No routing, no backend, no external state management — all data is ephemeral in-memory React state.
